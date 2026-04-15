@@ -228,17 +228,29 @@ export function createShareCoverCanvas() {
 
 export async function shareTool() {
   const title = "Paycheck Planner for Couples";
-  const text = "A clearer way to split bills, keep personal money, and save together.";
+  const text = "Build a clearer paycheck plan for shared bills, personal money, and joint savings.";
+  const originalUrl = window.location.href;
+  const shouldRestoreUrl = originalUrl !== PUBLIC_TOOL_URL;
 
-  if (navigator.share) {
-    await navigator.share({ title, text, url: PUBLIC_TOOL_URL });
-    return;
+  try {
+    if (shouldRestoreUrl) {
+      window.history.replaceState(window.history.state, "", PUBLIC_TOOL_URL);
+    }
+
+    if (navigator.share) {
+      await navigator.share({ title, text, url: PUBLIC_TOOL_URL });
+      return;
+    }
+
+    await copyText(PUBLIC_TOOL_URL);
+    const canvas = createShareCoverCanvas();
+    const blob = await canvasToBlob(canvas);
+    downloadBlob(blob, "paycheck-planner-share.png");
+  } finally {
+    if (shouldRestoreUrl) {
+      window.history.replaceState(window.history.state, "", originalUrl);
+    }
   }
-
-  await copyText(PUBLIC_TOOL_URL);
-  const canvas = createShareCoverCanvas();
-  const blob = await canvasToBlob(canvas);
-  downloadBlob(blob, "paycheck-planner-share.png");
 }
 
 async function loadQrImage(text: string, size: number) {
