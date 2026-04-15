@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#faf9f6"/>
+  <rect x="64" y="58" width="1072" height="514" rx="18" fill="#fff" stroke="#dedede"/>
+  <text x="112" y="132" fill="#ff385c" font-family="Arial, sans-serif" font-size="22" font-weight="700" letter-spacing="3">PAYCHECK PLANNER</text>
+  <text x="112" y="214" fill="#1a1a1a" font-family="Georgia, serif" font-size="60" font-weight="700">Paycheck Planner</text>
+  <text x="112" y="286" fill="#1a1a1a" font-family="Georgia, serif" font-size="60" font-weight="700">for Couples</text>
+  <text x="112" y="358" fill="#55514d" font-family="Arial, sans-serif" font-size="30">A clearer way to split bills,</text>
+  <text x="112" y="400" fill="#55514d" font-family="Arial, sans-serif" font-size="30">keep personal money,</text>
+  <text x="112" y="442" fill="#55514d" font-family="Arial, sans-serif" font-size="30">and save together.</text>
+  <rect x="700" y="138" width="338" height="76" rx="8" fill="#1a1a1a"/>
+  <rect x="730" y="250" width="278" height="42" rx="8" fill="#f1f0ed"/>
+  <rect x="730" y="306" width="278" height="42" rx="8" fill="#fff0f3"/>
+  <rect x="730" y="362" width="278" height="42" rx="8" fill="#fff0f3"/>
+  <rect x="730" y="418" width="278" height="42" rx="8" fill="#f7f7f5"/>
+  <text x="728" y="184" fill="#fff" font-family="Arial, sans-serif" font-size="16" font-weight="700">YOUR MONTHLY PLAN</text>
+  <text x="925" y="186" fill="#fff" font-family="Georgia, serif" font-size="26" font-weight="700">$8,000</text>
+  <text x="756" y="277" fill="#55514d" font-family="Arial, sans-serif" font-size="18" font-weight="700">KEEP</text>
+  <text x="932" y="277" fill="#55514d" font-family="Arial, sans-serif" font-size="18" font-weight="700">$800</text>
+  <text x="756" y="333" fill="#d6003a" font-family="Arial, sans-serif" font-size="18" font-weight="700">TRANSFER</text>
+  <text x="912" y="333" fill="#d6003a" font-family="Arial, sans-serif" font-size="18" font-weight="700">$1,700</text>
+  <text x="756" y="389" fill="#d6003a" font-family="Arial, sans-serif" font-size="18" font-weight="700">SAVE</text>
+  <text x="932" y="389" fill="#d6003a" font-family="Arial, sans-serif" font-size="18" font-weight="700">$500</text>
+  <text x="756" y="445" fill="#666" font-family="Arial, sans-serif" font-size="18" font-weight="700">LEFTOVER</text>
+  <text x="958" y="445" fill="#666" font-family="Arial, sans-serif" font-size="18" font-weight="700">$0</text>
+  <text x="112" y="526" fill="#1a1a1a" font-family="Arial, sans-serif" font-size="20" font-weight="700">Paycheck Planner</text>
+  <text x="310" y="526" fill="#666" font-family="Arial, sans-serif" font-size="18">Built for shared expenses, personal breathing room, and joint goals.</text>
+</svg>
