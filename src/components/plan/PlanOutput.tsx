@@ -17,8 +17,8 @@ export default function PlanOutput({ plan, state, model, onEdit }: Props) {
 
   const handleShare = async () => {
     try {
-      await shareTool(planLink);
-      setStatus("Ready to share.");
+      await shareTool();
+      setStatus("Tool link ready to share.");
     } catch {
       setStatus("Sharing was cancelled.");
     }

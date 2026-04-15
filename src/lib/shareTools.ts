@@ -1,7 +1,8 @@
 import { fmtCurrency } from "./format";
 import type { BuilderState, ModelKey, PlanSummary } from "../types/planner";
 
-const QR_URL = "https://ayisha1113.github.io/paycheck-planner-for-couples/";
+export const PUBLIC_TOOL_URL = "https://ayisha1113.github.io/paycheck-planner-for-couples/";
+const QR_URL = PUBLIC_TOOL_URL;
 const PLAN_PARAM = "plan";
 
 type SharedPlanPayload = {
@@ -225,16 +226,16 @@ export function createShareCoverCanvas() {
   return canvas;
 }
 
-export async function shareTool(planLink: string) {
+export async function shareTool() {
   const title = "Paycheck Planner for Couples";
   const text = "A clearer way to split bills, keep personal money, and save together.";
 
   if (navigator.share) {
-    await navigator.share({ title, text, url: planLink });
+    await navigator.share({ title, text, url: PUBLIC_TOOL_URL });
     return;
   }
 
-  await copyText(planLink);
+  await copyText(PUBLIC_TOOL_URL);
   const canvas = createShareCoverCanvas();
   const blob = await canvasToBlob(canvas);
   downloadBlob(blob, "paycheck-planner-share.png");
