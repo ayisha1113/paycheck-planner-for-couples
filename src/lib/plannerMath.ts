@@ -226,6 +226,7 @@ export function buildPlan(model: ModelKey, state: BuilderState): PlanSummary {
   const income = totalIncome(state);
   const personal = getPersonalAmounts(model, state);
   const shared = getSharedSplit(model, state, expenseTotal);
+  const sharedGoalsTarget = state.accounts.reduce((sum, account) => sum + (account.sweep ? 0 : account.target), 0);
   const warnings: PlanWarning[] = [];
   const blocks = createBlocks(state);
 
@@ -273,7 +274,7 @@ export function buildPlan(model: ModelKey, state: BuilderState): PlanSummary {
         { label: "Shared expenses", value: fmtCurrency(expenseTotal) },
         {
           label: "Shared goals",
-          value: fmtCurrency(state.accounts.reduce((sum, account) => sum + (account.sweep ? 0 : account.target), 0)),
+          value: fmtCurrency(sharedGoalsTarget),
           sub: "After bills and personal space",
         },
       ],
@@ -325,16 +326,16 @@ export function buildPlan(model: ModelKey, state: BuilderState): PlanSummary {
     sharedRuleText: shared.label,
     stats: [
       { label: "Total income", value: fmtCurrency(income) },
-      { label: "Shared expenses", value: fmtCurrency(expenseTotal), sub: shared.label },
       {
-        label: model === "proportional" ? "Personal savings" : "Personal space",
+        label: "Personal space",
         value: fmtCurrency(personal.total),
         sub: `${state.names.a}: ${fmtCurrency(personal.a)} · ${state.names.b}: ${fmtCurrency(personal.b)}`,
       },
+      { label: "Shared expenses", value: fmtCurrency(expenseTotal), sub: shared.label },
       {
-        label: "Funding accounts",
-        value: `${state.accounts.length + 1}`,
-        sub: "Shared expense account + priority accounts",
+        label: "Shared goals",
+        value: fmtCurrency(sharedGoalsTarget),
+        sub: "After bills and personal space",
       },
     ],
     blocks: finalizeBlocks(blocks),
