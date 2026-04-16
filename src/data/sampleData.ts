@@ -14,11 +14,7 @@ export const createInitialState = (): BuilderState => ({
   },
   expenses: [
     { id: 1, name: "Rent", amount: 1800 },
-    { id: 2, name: "Car loan", amount: 400 },
-    { id: 3, name: "Car insurance", amount: 120 },
-    { id: 4, name: "Electricity", amount: 100 },
-    { id: 5, name: "Groceries", amount: 600 },
-    { id: 6, name: "Restaurants", amount: 300 }
+    { id: 2, name: "Groceries", amount: 600 }
   ],
   accounts: [
     { id: 1, name: "Shared buffer fund", target: 500, partial: true, sweep: false },

@@ -117,14 +117,14 @@ export default function SharedExpensesSection({ model, state, setState }: Props)
           }
         />
         <span className="muted" style={{ flex: 1 }}>
-          Override the calculated total with a custom shared expense amount
+          Use one total instead of adding every shared expense
         </span>
         {state.expenseOverrideEnabled ? (
           <input
             type="number"
             step={100}
             className="numberInput overrideInput"
-            placeholder="Custom total"
+            placeholder="Estimated total"
             value={state.expenseOverrideValue || ""}
             onChange={(e) =>
               setState((prev) => ({
@@ -135,6 +135,10 @@ export default function SharedExpensesSection({ model, state, setState }: Props)
             style={{ maxWidth: 160 }}
           />
         ) : null}
+      </div>
+      <div className="helperText" style={{ marginTop: 8 }}>
+        Choose this if you only know an estimate, or if you want to replace
+        the itemized total with a final monthly amount.
       </div>
 
       {model === "proportional" ? (

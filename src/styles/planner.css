@@ -1328,6 +1328,15 @@ a { text-decoration: none; color: inherit; }
   background: #444444;
   border-color: #444444;
 }
+.planActionBtn.feedback {
+  border-color: rgba(255,56,92,0.28);
+  color: var(--pink-deep);
+}
+.planActionBtn.feedback:hover {
+  background: var(--pink-soft);
+  border-color: rgba(255,56,92,0.45);
+  color: var(--pink-deep);
+}
 .planActionStatus {
   color: var(--gray-600);
   font-size: 13px;

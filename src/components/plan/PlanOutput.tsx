@@ -76,6 +76,14 @@ export default function PlanOutput({ plan, state, model, onEdit }: Props) {
           <button className="planActionBtn primary" onClick={handleSave}>
             Save to device
           </button>
+          <a
+            className="planActionBtn feedback"
+            href="https://forms.gle/s1mRj5X4Cw2SJi3z9"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Share 30-sec feedback
+          </a>
         </div>
         {status ? <div className="planActionStatus">{status}</div> : null}
       </div>
