@@ -71,7 +71,7 @@ export default function PlanOutput({ plan, state, model, onEdit }: Props) {
             Share this tool
           </button>
           <button className="planActionBtn" onClick={handleCopy}>
-            Copy link
+            Share this result
           </button>
           <button className="planActionBtn primary" onClick={handleSave}>
             Save to device
