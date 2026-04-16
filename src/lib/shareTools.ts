@@ -1,4 +1,5 @@
 import { fmtCurrency } from "./format";
+import type { Language } from "./i18n";
 import type { BuilderState, ModelKey, PlanSummary } from "../types/planner";
 
 export const PUBLIC_TOOL_URL = "https://ayisha1113.github.io/paycheck-planner-for-couples/";
@@ -226,9 +227,12 @@ export function createShareCoverCanvas() {
   return canvas;
 }
 
-export async function shareTool() {
-  const title = "Paycheck Planner for Couples";
-  const text = "Build a clearer paycheck plan for shared bills, personal money, and joint savings.";
+export async function shareTool(language: Language = "en") {
+  const isZh = language === "zh";
+  const title = isZh ? "双人发薪规划器" : "Paycheck Planner for Couples";
+  const text = isZh
+    ? "把共同账单、个人空间和共同储蓄一次安排清楚。"
+    : "Build a clearer paycheck plan for shared bills, personal money, and joint savings.";
   const originalUrl = window.location.href;
   const shouldRestoreUrl = originalUrl !== PUBLIC_TOOL_URL;
 
@@ -271,6 +275,7 @@ function drawPlanCard(
   x: number,
   y: number,
   width: number,
+  language: Language = "en",
 ) {
   const rowHeight = 54;
   const height = 118 + Math.max(block.steps.length, 1) * rowHeight;
@@ -289,9 +294,9 @@ function drawPlanCard(
   ctx.fillText(block.title, x + 28, y + 52);
   ctx.font = "400 17px Arial, sans-serif";
   ctx.fillStyle = "#999999";
-  ctx.fillText(`Take-home ${fmtCurrency(block.gross)}`, x + 28, y + 82);
+  ctx.fillText(`${language === "zh" ? "到手" : "Take-home"} ${fmtCurrency(block.gross)}`, x + 28, y + 82);
 
-  const steps = block.steps.length ? block.steps : [{ label: "No action this paycheck", amount: 0, kind: "surplus" }];
+  const steps = block.steps.length ? block.steps : [{ label: language === "zh" ? "这笔工资暂时不需要操作" : "No action this paycheck", amount: 0, kind: "surplus" }];
   steps.forEach((step, index) => {
     const rowY = y + 100 + index * rowHeight;
     const isKeep = step.kind === "keep";
@@ -310,7 +315,8 @@ function drawPlanCard(
   return height;
 }
 
-export async function savePlanImage(plan: PlanSummary, state: BuilderState) {
+export async function savePlanImage(plan: PlanSummary, state: BuilderState, language: Language = "en") {
+  const isZh = language === "zh";
   const cardWidth = 1056;
   const rowGap = 22;
   const blockHeights = plan.blocks.map((block) => 118 + Math.max(block.steps.length, 1) * 54);
@@ -324,15 +330,15 @@ export async function savePlanImage(plan: PlanSummary, state: BuilderState) {
 
   ctx.fillStyle = "#ff385c";
   ctx.font = "700 16px Arial, sans-serif";
-  ctx.fillText("YOUR MONTHLY PLAN", 72, 78);
+  ctx.fillText(isZh ? "你的月度计划" : "YOUR MONTHLY PLAN", 72, 78);
 
   ctx.fillStyle = "#1a1a1a";
   ctx.font = "700 48px Georgia, serif";
-  ctx.fillText(`${state.names.a} & ${state.names.b}'s paycheck plan`, 72, 136);
+  ctx.fillText(isZh ? `${state.names.a} 和 ${state.names.b}的发薪计划` : `${state.names.a} & ${state.names.b}'s paycheck plan`, 72, 136);
 
   ctx.fillStyle = "#666666";
   ctx.font = "400 22px Arial, sans-serif";
-  ctx.fillText("Follow these steps each time you get paid this month.", 72, 176);
+  ctx.fillText(isZh ? "本月每次发工资，都可以照着这些步骤操作。" : "Follow these steps each time you get paid this month.", 72, 176);
 
   fillRoundedRect(ctx, 72, 220, 1056, 150, 10, "#1a1a1a");
   const statWidth = 1056 / plan.stats.length;
@@ -353,7 +359,7 @@ export async function savePlanImage(plan: PlanSummary, state: BuilderState) {
 
   let y = 410;
   plan.blocks.forEach((block, index) => {
-    const height = drawPlanCard(ctx, block, 72, y, cardWidth);
+    const height = drawPlanCard(ctx, block, 72, y, cardWidth, language);
     y += height + (index === plan.blocks.length - 1 ? 0 : rowGap);
   });
 
@@ -363,10 +369,10 @@ export async function savePlanImage(plan: PlanSummary, state: BuilderState) {
 
   ctx.fillStyle = "#1a1a1a";
   ctx.font = "700 28px Georgia, serif";
-  ctx.fillText("Paycheck Planner for Couples", 108, y + 56);
+  ctx.fillText(isZh ? "双人发薪规划器" : "Paycheck Planner for Couples", 108, y + 56);
   ctx.fillStyle = "#666666";
   ctx.font = "400 20px Arial, sans-serif";
-  drawWrappedText(ctx, "A clearer way to split bills, keep personal money, and save together.", 108, y + 96, 620, 30);
+  drawWrappedText(ctx, isZh ? "把共同账单、个人空间和共同储蓄一次安排清楚。" : "A clearer way to split bills, keep personal money, and save together.", 108, y + 96, 620, 30);
 
   const date = new Intl.DateTimeFormat(undefined, {
     year: "numeric",
@@ -375,7 +381,7 @@ export async function savePlanImage(plan: PlanSummary, state: BuilderState) {
   }).format(new Date());
   ctx.font = "700 16px Arial, sans-serif";
   ctx.fillStyle = "#999999";
-  ctx.fillText(`Saved ${date}`, 108, y + 160);
+  ctx.fillText(isZh ? `保存于 ${date}` : `Saved ${date}`, 108, y + 160);
 
   try {
     const qr = await loadQrImage(QR_URL, 220);
@@ -388,7 +394,7 @@ export async function savePlanImage(plan: PlanSummary, state: BuilderState) {
 
   ctx.fillStyle = "#666666";
   ctx.font = "700 13px Arial, sans-serif";
-  ctx.fillText("SCAN TO BUILD YOUR OWN", 888, y + 184);
+  ctx.fillText(isZh ? "扫码生成你的计划" : "SCAN TO BUILD YOUR OWN", 888, y + 184);
 
   const blob = await canvasToBlob(canvas);
   downloadBlob(blob, "paycheck-planner-result.png");

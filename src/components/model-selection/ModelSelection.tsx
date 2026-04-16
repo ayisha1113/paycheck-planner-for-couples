@@ -1,17 +1,22 @@
-import { MODEL_COPY } from "../../data/modelCopy";
+import { getModelCopy } from "../../data/modelCopy";
+import type { Language } from "../../lib/i18n";
 import type { ModelKey } from "../../types/planner";
 
 type ModelSelectionProps = {
+  language: Language;
   model: ModelKey | null;
   onSelect: (model: ModelKey) => void;
 };
 
-export default function ModelSelection({ model, onSelect }: ModelSelectionProps) {
+export default function ModelSelection({ language, model, onSelect }: ModelSelectionProps) {
+  const modelCopy = getModelCopy(language);
+  const isZh = language === "zh";
+
   return (
     <div className="modelChoice">
       <div className="modelGrid modelGrid-builder">
-        {(Object.keys(MODEL_COPY) as ModelKey[]).map((key) => {
-          const copy = MODEL_COPY[key];
+        {(Object.keys(modelCopy) as ModelKey[]).map((key) => {
+          const copy = modelCopy[key];
           const isSelected = model === key;
 
           return (
@@ -24,7 +29,7 @@ export default function ModelSelection({ model, onSelect }: ModelSelectionProps)
               <span className="modelSystemName">{copy.systemName}</span>
               <span className="modelTitle">{copy.title}</span>
               <span className={isSelected ? "btn-model-selected" : "btn-model-select"}>
-                Choose this
+                {isZh ? "选择这个方案" : "Choose this"}
               </span>
             </button>
           );

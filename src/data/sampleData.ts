@@ -1,7 +1,8 @@
 import type { BuilderState } from "../types/planner";
+import type { Language } from "../lib/i18n";
 
-export const createInitialState = (): BuilderState => ({
-  names: { a: "Emma", b: "James" },
+export const createInitialState = (language: Language = "en"): BuilderState => ({
+  names: language === "zh" ? { a: "小林", b: "小周" } : { a: "Emma", b: "James" },
   paychecks: {
     a: [
       { id: 1, amount: 2500 },
@@ -13,13 +14,13 @@ export const createInitialState = (): BuilderState => ({
     ]
   },
   expenses: [
-    { id: 1, name: "Rent", amount: 1800 },
-    { id: 2, name: "Groceries", amount: 600 }
+    { id: 1, name: language === "zh" ? "房租" : "Rent", amount: 1800 },
+    { id: 2, name: language === "zh" ? "买菜和日用品" : "Groceries", amount: 600 }
   ],
   accounts: [
-    { id: 1, name: "Shared buffer fund", target: 500, partial: true, sweep: false },
-    { id: 2, name: "Emergency fund", target: 300, partial: false, sweep: false },
-    { id: 3, name: "Joint savings", target: 500, partial: false, sweep: true }
+    { id: 1, name: language === "zh" ? "共同备用金" : "Shared buffer fund", target: 500, partial: true, sweep: false },
+    { id: 2, name: language === "zh" ? "应急金" : "Emergency fund", target: 300, partial: false, sweep: false },
+    { id: 3, name: language === "zh" ? "共同储蓄" : "Joint savings", target: 500, partial: false, sweep: true }
   ],
   expenseOverrideEnabled: false,
   expenseOverrideValue: 0,

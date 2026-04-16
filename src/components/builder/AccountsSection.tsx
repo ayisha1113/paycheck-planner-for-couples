@@ -1,44 +1,45 @@
 import type { Dispatch, SetStateAction } from "react";
 import { fmtCurrency } from "../../lib/format";
+import type { Language } from "../../lib/i18n";
 import { getPersonalAmounts, totalExpenses, totalIncome } from "../../lib/plannerMath";
 import type { BuilderState, ModelKey } from "../../types/planner";
 
 type Props = {
+  language: Language;
   model: ModelKey;
   state: BuilderState;
   setState: Dispatch<SetStateAction<BuilderState>>;
 };
 
-export default function AccountsSection({ model, state, setState }: Props) {
+export default function AccountsSection({ language, model, state, setState }: Props) {
+  const isZh = language === "zh";
   const income = totalIncome(state);
   const expenses = totalExpenses(state);
   const personal = getPersonalAmounts(model, state);
-  const availableAtSharedGoalsStep = Math.max(
-    0,
-    income - expenses - personal.total,
-  );
+  const availableAtSharedGoalsStep = Math.max(0, income - expenses - personal.total);
 
   return (
     <div className="card">
       <div className="paneHeader">
-        <div className="kicker">Shared goals</div>
-        <h3 className="cardTitleSerif">Where money goes next</h3>
+        <div className="kicker">{isZh ? "共同目标" : "Shared goals"}</div>
+        <h3 className="cardTitleSerif">{isZh ? "剩下的钱优先去哪里" : "Where money goes next"}</h3>
         <div className="muted">
-          After the core rules of your selected model are applied, the rest of
-          your money can flow into shared goals in priority order.
+          {isZh
+            ? "选好前面的规则后，剩余的钱会按优先级流向你们的共同目标。"
+            : "After the core rules of your selected model are applied, the rest of your money can flow into shared goals in priority order."}
         </div>
       </div>
 
       <div className="availabilityNote">
-        <span>Available at this step</span>
+        <span>{isZh ? "这一步可分配金额" : "Available at this step"}</span>
         <strong>{fmtCurrency(availableAtSharedGoalsStep)}</strong>
       </div>
 
       <div className="stack">
         <div className="rowCard" style={{ opacity: 0.75 }}>
           <div className="inlineRow priorityRow">
-            <span className="modelTag">Priority 1</span>
-            <strong>Shared Expense Account</strong>
+            <span className="modelTag">{isZh ? "优先级 1" : "Priority 1"}</span>
+            <strong>{isZh ? "共同支出账户" : "Shared Expense Account"}</strong>
           </div>
         </div>
 
@@ -46,7 +47,7 @@ export default function AccountsSection({ model, state, setState }: Props) {
           <div key={account.id} className="rowCard">
             <div className="twoCol">
               <div className="field">
-                <label>Account name</label>
+                <label>{isZh ? "账户名称" : "Account name"}</label>
                 <input
                   value={account.name}
                   onChange={(e) =>
@@ -61,13 +62,13 @@ export default function AccountsSection({ model, state, setState }: Props) {
               </div>
 
               <div className="field">
-                <label>Monthly target</label>
+                <label>{isZh ? "每月目标金额" : "Monthly target"}</label>
                 <input
                   type="number"
                   step={100}
                   disabled={account.sweep}
                   className="accountTargetInput"
-                  placeholder={account.sweep ? "Remaining" : ""}
+                  placeholder={account.sweep ? (isZh ? "剩余全部" : "Remaining") : ""}
                   value={account.sweep ? "" : account.target}
                   onChange={(e) =>
                     setState((prev) => ({
@@ -80,14 +81,14 @@ export default function AccountsSection({ model, state, setState }: Props) {
                 />
                 {account.sweep ? (
                   <div className="helperText" style={{ marginTop: 8 }}>
-                    This account receives all remaining money.
+                    {isZh ? "这个账户会收到所有剩余的钱。" : "This account receives all remaining money."}
                   </div>
                 ) : null}
               </div>
             </div>
 
             <div className="inlineRow" style={{ flexWrap: "wrap" }}>
-              <span className="modelTag">Priority {idx + 2}</span>
+              <span className="modelTag">{isZh ? `优先级 ${idx + 2}` : `Priority ${idx + 2}`}</span>
 
               {idx === 0 ? (
                 <label className="toggleRow" style={{ flex: 1 }}>
@@ -103,7 +104,7 @@ export default function AccountsSection({ model, state, setState }: Props) {
                       }))
                     }
                   />
-                  <span className="helperText">Allow partial fund</span>
+                  <span className="helperText">{isZh ? "钱不够时允许部分存入" : "Allow partial fund"}</span>
                 </label>
               ) : null}
 
@@ -122,7 +123,7 @@ export default function AccountsSection({ model, state, setState }: Props) {
                       }))
                     }
                   />
-                  <span className="helperText">Send all remaining money here</span>
+                  <span className="helperText">{isZh ? "把所有剩余的钱放到这里" : "Send all remaining money here"}</span>
                 </label>
               ) : null}
             </div>
@@ -137,7 +138,7 @@ export default function AccountsSection({ model, state, setState }: Props) {
                   }))
                 }
               >
-                Remove
+                {isZh ? "删除" : "Remove"}
               </button>
             </div>
           </div>
@@ -163,7 +164,7 @@ export default function AccountsSection({ model, state, setState }: Props) {
             }))
           }
         >
-          + Add savings account
+          {isZh ? "+ 添加储蓄目标" : "+ Add savings account"}
         </button>
       </div>
     </div>

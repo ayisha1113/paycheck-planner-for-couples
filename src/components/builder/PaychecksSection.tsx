@@ -1,14 +1,18 @@
 import type { Dispatch, SetStateAction } from "react";
 import { fmtCurrency } from "../../lib/format";
+import type { Language } from "../../lib/i18n";
 import { totalIncome } from "../../lib/plannerMath";
 import type { BuilderState, PersonKey } from "../../types/planner";
 
 type Props = {
+  language: Language;
   state: BuilderState;
   setState: Dispatch<SetStateAction<BuilderState>>;
 };
 
-export default function PaychecksSection({ state, setState }: Props) {
+export default function PaychecksSection({ language, state, setState }: Props) {
+  const isZh = language === "zh";
+
   const updateAmount = (who: PersonKey, idx: number, amount: number) => {
     setState((prev) => ({
       ...prev,
@@ -55,10 +59,10 @@ export default function PaychecksSection({ state, setState }: Props) {
       <div className="twoCol">
         {(["a", "b"] as PersonKey[]).map((who) => (
           <div key={who} className="card">
-            <div className="kicker">{who === "a" ? "Person A" : "Person B"}</div>
+            <div className="kicker">{who === "a" ? (isZh ? "第一个人" : "Person A") : (isZh ? "第二个人" : "Person B")}</div>
 
             <div className="field">
-              <label>Name</label>
+              <label>{isZh ? "名字" : "Name"}</label>
               <input
                 value={state.names[who]}
                 onChange={(e) =>
@@ -73,7 +77,7 @@ export default function PaychecksSection({ state, setState }: Props) {
             <div className="stack" style={{ marginTop: 12 }}>
               {state.paychecks[who].map((paycheck, idx) => (
                 <div key={paycheck.id} className="field">
-                  <label>Paycheck {idx + 1}</label>
+                  <label>{isZh ? `第 ${idx + 1} 笔工资` : `Paycheck ${idx + 1}`}</label>
                   <input
                     type="number"
                     step={100}
@@ -88,10 +92,10 @@ export default function PaychecksSection({ state, setState }: Props) {
 
             <div className="inlineRow" style={{ marginTop: 12, flexWrap: "wrap" }}>
               <button className="ghostBtn" onClick={() => addPaycheck(who)}>
-                + Add paycheck
+                {isZh ? "+ 添加一笔工资" : "+ Add paycheck"}
               </button>
               <button className="dangerBtn" onClick={() => removePaycheck(who)}>
-                Remove last
+                {isZh ? "删除最后一笔" : "Remove last"}
               </button>
             </div>
           </div>
@@ -101,10 +105,10 @@ export default function PaychecksSection({ state, setState }: Props) {
       <div className="metricBar">
         <div>
           <div className="kicker" style={{ marginBottom: 4 }}>
-            Total income this month
+            {isZh ? "本月总收入" : "Total income this month"}
           </div>
           <div className="helperText">
-            Combined take-home across both people and all paychecks
+            {isZh ? "两个人本月所有到手工资合计" : "Combined take-home across both people and all paychecks"}
           </div>
         </div>
         <strong>{fmtCurrency(totalIncome(state))}</strong>
