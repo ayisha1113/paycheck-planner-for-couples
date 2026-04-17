@@ -6,7 +6,7 @@ import Nav from "./components/layout/Nav";
 import PreviewSection from "./components/layout/PreviewSection";
 import PlanOutput from "./components/plan/PlanOutput";
 import { getModelCopy } from "./data/modelCopy";
-import { createInitialState } from "./data/sampleData";
+import { createInitialState, localizeDefaultStateText } from "./data/sampleData";
 import { getSavedLanguage, saveLanguage, type Language } from "./lib/i18n";
 import { buildPlan } from "./lib/plannerMath";
 import { getSharedPlanFromUrl } from "./lib/shareTools";
@@ -29,6 +29,7 @@ export default function App() {
 
   const setAppLanguage = (nextLanguage: Language) => {
     setLanguage(nextLanguage);
+    setState((currentState) => localizeDefaultStateText(currentState, nextLanguage));
     saveLanguage(nextLanguage);
   };
 
